@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Monthly Spending Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: linear-gradient(to bottom, #4da6ff, #ffe0bd);
+    }
+    h2 {
+      color: #333;
+    }
+    canvas {
+      max-width: 100%;
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h2>📊 Monthly Spending Overview</h2>
+  <canvas id="monthlyChart" width="600" height="300"></canvas>
+
+  <script>
+    const supabaseClient = supabase.createClient(
+      'https://asdoahgeiliotxyvnplu.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzZG9haGdlaWxpb3R4eXZucGx1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM0NzgwMTcsImV4cCI6MjA1OTA1NDAxN30.vZk3XgKXwvrqfX4WfGTvUqj3HgzI7YjE8ds4XV3es0s'
+    );
+
+    async function fetchAndRenderChart() {
+      const userId = localStorage.getItem("saive_user_id");
+      if (!userId) {
+        alert("Please log in to view your chart.");
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from('user-finances')
+        .select('csv_data')
+        .eq('user_id', userId)
+        .single();
+
+      if (error || !data || !data.csv_data) {
+        alert("No data found.");
+        return;
+      }
+
+      const lines = data.csv_data.split('\n').filter(line => line.trim());
+      const headers = lines[0].split(',');
+      const rows = lines.slice(1).map(line => {
+        const values = line.split(',');
+        const row = {};
+        headers.forEach((header, idx) => {
+          row[header.trim()] = values[idx].trim();
+        });
+        return row;
+      });
+
+      const currentMonth = new Date().toISOString().slice(0, 7);
+      const dailyTotals = {};
+
+      rows.forEach(tx => {
+        if (tx['Transaction Type'].toLowerCase() === 'debit' && tx['Date'].startsWith(currentMonth)) {
+          const day = tx['Date'].split('-')[2];
+          const amount = parseFloat(tx['Amount']);
+          dailyTotals[day] = (dailyTotals[day] || 0) + amount;
+        }
+      });
+
+      const labels = Object.keys(dailyTotals).sort((a, b) => a - b);
+      const dataPoints = labels.map(day => dailyTotals[day]);
+
+      const ctx = document.getElementById('monthlyChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Daily Spending (£)',
+            data: dataPoints,
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: `Spending for ${currentMonth}`
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    window.onload = fetchAndRenderChart;
+  </script>
+</body>
+</html>

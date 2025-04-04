@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saive - Settings</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to bottom right, #ff5f6d, #ffc371, #47a0ff);
+      color: white;
+      user-select: none;
+    }
+    .container {
+      width: 90%;
+      max-width: 400px;
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      color: #333;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .header {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+    .setting-option {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #ccc;
+    }
+    .setting-option:last-child {
+      border-bottom: none;
+    }
+    .setting-option span {
+      font-size: 16px;
+      color: #555;
+    }
+    .setting-option a {
+      color: #4da6ff;
+      font-size: 16px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .setting-option a:hover {
+      color: #2d87d7;
+    }
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      background: #f4f7fe;
+      padding: 12px 0;
+      margin-top: 20px;
+      border-top: 1px solid #ccc;
+    }
+    .bottom-nav div {
+      text-align: center;
+      font-size: 12px;
+      color: #555;
+    }
+    .bottom-nav a {
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">Settings</div>
+    <div class="setting-option">
+      <span>Account</span>
+      <a href="#">Edit</a>
+    </div>
+    <div class="setting-option">
+      <span>Security</span>
+      <a href="#">Change Passcode</a>
+    </div>
+    <div class="setting-option">
+      <span>Notifications</span>
+      <a href="#">Preferences</a>
+    </div>
+    <div class="setting-option">
+      <span>Privacy</span>
+      <a href="#">Edit</a>
+    </div>
+    <div class="setting-option">
+      <span>Help</span>
+      <a href="#">FAQ</a>
+    </div>
+
+    <div class="bottom-nav">
+      <a href="home.html">
+        <div>🏠<br>Home</div>
+      </a>
+      <div>🤖<br>Saym</div>
+      <div>💸<br>Payments</div>
+      <div>🔍<br>Search</div>
+      <div>💳<br>Cards</div>
+    </div>
+  </div>
+
+</body>
+</html>
