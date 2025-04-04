@@ -12,6 +12,7 @@
     * {
       box-sizing: border-box;
     }
+
     html, body {
       margin: 0;
       padding: 0;
@@ -22,6 +23,7 @@
       align-items: center;
       height: 100vh;
     }
+
     .login-container {
       background-color: #fff;
       padding: 32px;
@@ -31,12 +33,14 @@
       max-width: 350px;
       text-align: center;
     }
+
     .login-title {
       font-size: 24px;
       font-weight: bold;
       color: #4da6ff;
       margin-bottom: 20px;
     }
+
     .password-rules {
       font-size: 13px;
       color: #444;
@@ -47,18 +51,22 @@
       text-align: left;
       margin-bottom: 16px;
     }
+
     .password-rules ul {
       margin: 0;
       padding-left: 20px;
     }
+
     .password-rules li {
       line-height: 1.5;
     }
+
     form {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
+
     input {
       width: 90%;
       max-width: 280px;
@@ -69,6 +77,7 @@
       font-size: 14px;
       text-align: left;
     }
+
     button {
       width: 90%;
       max-width: 280px;
@@ -83,22 +92,27 @@
       cursor: pointer;
       transition: background-color 0.2s ease-in-out;
     }
+
     button:hover {
       background-color: #2d87d7;
     }
+
     .secondary-button {
       background-color: #e9eff9;
       color: #4da6ff;
     }
+
     .secondary-button:hover {
       background-color: #d6e5f5;
     }
+
     .fade-message {
       animation: fadeIn 0.3s ease-in-out;
       font-weight: bold;
       margin-top: 10px;
       color: #4da6ff;
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -108,6 +122,7 @@
 <body>
   <div class="login-container">
     <div class="login-title">Welcome to Saive</div>
+
     <!-- Password Rules -->
     <div class="password-rules">
       <p><strong>🔐 Password must contain:</strong></p>
@@ -119,6 +134,7 @@
         <li>1 special character (!@#$%^&*)</li>
       </ul>
     </div>
+
     <form id="authForm">
       <input type="text" id="username" placeholder="Username" required /><br />
       <input type="password" id="password" placeholder="Password" required /><br />
@@ -131,7 +147,7 @@
     window.addEventListener("DOMContentLoaded", () => {
       const supabaseClient = supabase.createClient(
         'https://asdoahgeiliotxyvnplu.supabase.co',
-        'YOUR_SUPABASE_ANON_KEY'
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzZG9haGdlaWxpb3R4eXZucGx1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM0NzgwMTcsImV4cCI6MjA1OTA1NDAxN30.vZk3XgKXwvrqfX4WfGTvUqj3HgzI7YjE8ds4XV3es0s'
       );
 
       const bcrypt = dcodeIO.bcrypt;
@@ -171,17 +187,15 @@
           return;
         }
 
-        // Store user ID for later use in localStorage.
-        localStorage.setItem("saive_user_id", data.id);
+        localStorage.setItem("saive_user_id", data.id); // ✅ store user ID for later use
 
         const message = document.createElement("div");
         message.className = "fade-message";
         message.textContent = `✅ Welcome, ${username}! Redirecting...`;
         document.querySelector(".login-container").appendChild(message);
 
-        // Redirect to the chat page (or your home page with chat functionality)
         setTimeout(() => {
-          window.location.href = "chat.html";
+          window.location.href = "home.html";
         }, 1200);
       });
 
